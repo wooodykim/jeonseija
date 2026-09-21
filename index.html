@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>전세대출 이자 계산기 | 대출금·금리별 월 이자와 총 이자 (2026)</title>
+<meta name="description" content="전세대출 이자 계산기. 대출금액과 금리, 대출 기간을 넣으면 월 이자, 연 이자, 기간 총 이자와 금리가 1%p 오를 때 늘어나는 이자를 계산합니다." />
+<style>body{margin:0;background:#f4f6fa}</style>
+</head>
+<body>
+<div id="jdi">
+  <div class="card">
+    <h1>전세대출 이자 계산기</h1>
+    <p class="lead">대출금액 × 연 금리 ÷ 12로 월 이자를 계산합니다. 전세대출은 만기까지 이자만 내고 원금은 만기에 한 번에 갚는 만기일시상환이 기본입니다.</p>
+
+    <div class="field">
+      <span class="label">전세대출 금액</span>
+      <div class="seg grid4" id="jdi_amtPreset">
+        <button data-v="100000000">1억</button>
+        <button data-v="150000000">1억 5천</button>
+        <button data-v="200000000">2억</button>
+        <button data-v="300000000">3억</button>
+      </div>
+      <div class="inp-row" style="margin-top:8px"><input type="text" id="jdi_amt" inputmode="numeric" placeholder="0" /><span class="unit">원</span></div>
+      <div class="hint" id="jdi_amtHint"></div>
+    </div>
+
+    <div class="field">
+      <span class="label">대출 금리 <em>(연, 대출 약정서 또는 은행 앱 기준)</em></span>
+      <div class="seg grid" id="jdi_preset">
+        <button data-v="1.9">신혼 버팀목 최저<br>1.9%</button>
+        <button data-v="2.2">청년 버팀목 최저<br>2.2%</button>
+        <button data-v="2.5">버팀목 최저<br>2.5%</button>
+        <button data-v="3.5">버팀목 최고<br>3.5%</button>
+        <button data-v="4" class="on">은행 전세대출<br>4.0%</button>
+        <button data-v="4.5">은행 전세대출<br>4.5%</button>
+      </div>
+      <div class="inp-row" style="margin-top:8px"><input type="text" id="jdi_rate" inputmode="decimal" value="4" /><span class="unit">%</span></div>
+    </div>
+
+    <div class="field">
+      <span class="label">대출 기간 <em>(전세 계약 기간, 보통 24개월)</em></span>
+      <div class="inp-row"><input type="text" id="jdi_term" inputmode="numeric" value="24" /><span class="unit">개월</span></div>
+    </div>
+
+    <div class="result">
+      <div class="rlabel">월 이자</div>
+      <div class="rval" id="jdi_out">0원</div>
+      <div class="rsub" id="jdi_outSub"></div>
+      <span class="badge base" id="jdi_badge">전세대출 금액을 입력하세요</span>
+    </div>
+
+    <div class="break">
+      <div class="brow"><span>하루 이자 <i>(대출금 × 금리 ÷ 365)</i></span><b id="jdi_bDay">0원</b></div>
+      <div class="brow"><span>연 이자 <i>(대출금 × 금리)</i></span><b id="jdi_bYear">0원</b></div>
+      <div class="brow total"><span>대출 기간 총 이자</span><b id="jdi_bTotal">0원</b></div>
+      <div class="brow"><span>금리가 1%p 오르면 월 이자</span><b id="jdi_bUp">-</b></div>
+      <div class="brow"><span>금리가 1%p 내리면 월 이자</span><b id="jdi_bDown">-</b></div>
+      <div class="brow"><span>소득공제 대상 금액 <i>(연 상환액의 40%, 400만원 한도)</i></span><b id="jdi_bDed">0원</b></div>
+    </div>
+
+    <p class="note">
+      <b>※ 참고용 계산입니다. 실제 이자는 일 단위(대출금 × 금리 × 이용일수 ÷ 365)로 계산되어 달마다 소폭 다릅니다.</b><br>
+      · 버팀목 금리 버튼은 주택도시기금 공시 기준 범위의 최저·최고값이고, 은행 4.0%·4.5%는 한국주택금융공사 주별 공시(2026.9.7~9.13, 은행별 3.85~5.07%)를 반올림한 예시입니다.<br>
+      · 변동금리 대출은 6개월 또는 12개월마다 금리가 바뀝니다. <b>1%p 오를 때 월 이자</b>를 함께 확인하세요.<br>
+      · 소득공제는 무주택 세대주인 근로자가 국민주택규모(85㎡) 이하 주택을 임차한 경우 등 요건을 갖춰야 받을 수 있습니다.
+    </p>
+  </div>
+</div>
+
+<style>
+  #jdi{
+    --card:#fff; --ink:#1a2233; --sub:#5b6577;
+    --line:#e3e8f0; --brand:#1f6feb; --brand-d:#1657c0;
+    --accent:#0f9d58; --warn:#b26a00; --bad:#c0392b; --soft:#eef3fb;
+    max-width:540px; margin:16px auto; padding:0 4px;
+    font-family:-apple-system,BlinkMacSystemFont,"Malgun Gothic","맑은 고딕","Apple SD Gothic Neo",sans-serif;
+    color:var(--ink); line-height:1.5; -webkit-text-size-adjust:100%;
+  }
+  #jdi *{box-sizing:border-box;margin:0;padding:0}
+  #jdi .card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px;box-shadow:0 1px 3px rgba(20,30,60,.05)}
+  #jdi h1{font-size:20px;font-weight:800;letter-spacing:-.4px}
+  #jdi .lead{font-size:13px;color:var(--sub);margin-top:6px}
+  #jdi .field{margin-top:18px}
+  #jdi .label{font-size:13px;font-weight:700;color:var(--sub);margin-bottom:8px;display:block}
+  #jdi .label em{font-style:normal;font-weight:600;color:var(--brand);font-size:11.5px}
+  #jdi .seg.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+  #jdi .seg.grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+  #jdi .seg button{
+    padding:9px 4px;font-size:12px;font-weight:700;cursor:pointer;line-height:1.35;
+    background:var(--soft);color:var(--sub);border:1.5px solid var(--line);border-radius:10px;transition:.12s;
+  }
+  #jdi .seg button.on{background:var(--brand);color:#fff;border-color:var(--brand)}
+  #jdi .inp-row{position:relative}
+  #jdi input[type=text]{
+    width:100%;padding:13px 58px 13px 14px;font-size:16px;font-weight:700;color:var(--ink);
+    border:1.5px solid var(--line);border-radius:10px;background:#fff;outline:none;text-align:right;
+  }
+  #jdi input[type=text]:focus{border-color:var(--brand)}
+  #jdi .unit{position:absolute;right:14px;top:50%;transform:translateY(-50%);font-size:13px;color:var(--sub);font-weight:700;pointer-events:none}
+  #jdi .hint{font-size:12px;color:var(--brand);margin-top:6px;text-align:right;font-weight:700;min-height:16px}
+  #jdi .result{margin-top:20px;background:linear-gradient(135deg,#1f6feb 0%,#1657c0 100%);border-radius:14px;padding:18px 20px;color:#fff}
+  #jdi .result .rlabel{font-size:13px;opacity:.9}
+  #jdi .result .rval{font-size:30px;font-weight:900;letter-spacing:-1px;margin-top:2px}
+  #jdi .result .rsub{font-size:12px;opacity:.92;margin-top:4px;min-height:18px}
+  #jdi .badge{display:inline-block;font-size:11px;font-weight:700;padding:3px 9px;border-radius:999px;margin-top:8px}
+  #jdi .badge.base{background:#e6f4ec;color:#0c7d46}
+  #jdi .break{margin-top:14px;border-top:1px solid var(--line);padding-top:14px}
+  #jdi .brow{display:flex;justify-content:space-between;font-size:13px;padding:5px 0;color:var(--sub);gap:10px}
+  #jdi .brow i{font-style:normal;font-size:11px;opacity:.75}
+  #jdi .brow b{color:var(--ink);font-weight:700;white-space:nowrap}
+  #jdi .brow.total{border-top:1px dashed var(--line);margin-top:4px;padding-top:9px;font-size:14px}
+  #jdi .brow.total b{color:var(--brand)}
+  #jdi .note{font-size:11.5px;color:var(--sub);margin-top:16px;line-height:1.6;background:var(--soft);padding:12px 14px;border-radius:10px}
+  #jdi .note b{color:var(--warn)}
+</style>
+
+<script>
+(function(){
+  var $ = function(id){ return document.getElementById('jdi_'+id); };
+
+  function num(v){ return parseInt(String(v).replace(/[^0-9]/g,''),10) || 0; }
+  function fmt(n){ return Math.round(n).toLocaleString('ko-KR'); }
+  function han(n){
+    n = Math.round(n);
+    if(!n) return '';
+    var eok=Math.floor(n/1e8), man=Math.floor((n%1e8)/1e4), won=n%1e4, p=[];
+    if(eok) p.push(eok+'억');
+    if(man) p.push(man.toLocaleString()+'만');
+    if(won) p.push(won.toLocaleString());
+    return p.join(' ')+'원';
+  }
+
+  function monthly(amt, bp){ return Math.floor(amt * bp / 10000 / 12); }
+
+  function calc(){
+    var amt  = num($('amt').value);
+    var rate = parseFloat($('rate').value) || 0;
+    var term = num($('term').value);
+    var bp   = Math.round(rate * 100);
+
+    var mon   = monthly(amt, bp);
+    var year  = Math.floor(amt * bp / 10000);
+    var total = Math.floor(amt * bp * term / 10000 / 12);
+
+    $('out').textContent    = fmt(mon)+'원';
+    $('outSub').textContent = mon ? han(mon)+' (연 '+rate+'%, 만기일시상환)' : '';
+    $('bDay').textContent   = fmt(Math.floor(amt * bp / 10000 / 365))+'원';
+    $('bYear').textContent  = fmt(year)+'원';
+    $('bTotal').textContent = fmt(total)+'원';
+    $('bUp').textContent    = mon ? fmt(monthly(amt, bp + 100))+'원 (+'+fmt(monthly(amt, bp + 100) - mon)+'원)' : '-';
+    $('bDown').textContent  = (mon && bp > 100) ? fmt(monthly(amt, bp - 100))+'원' : '-';
+    $('bDed').textContent   = fmt(Math.min(Math.floor(year * 0.4), 4000000))+'원';
+
+    var b=$('badge');
+    if(!amt){ b.textContent='전세대출 금액을 입력하세요'; }
+    else { b.textContent=term+'개월 총 이자 '+han(total); }
+  }
+
+  function syncPreset(wrap, v){
+    $(wrap).querySelectorAll('button').forEach(function(b){
+      b.classList.toggle('on', parseFloat(b.getAttribute('data-v')) === v);
+    });
+  }
+
+  $('amt').addEventListener('input', function(){
+    var n = num($('amt').value);
+    $('amt').value = n ? fmt(n) : '';
+    $('amtHint').textContent = n ? han(n) : '';
+    syncPreset('amtPreset', n);
+    calc();
+  });
+
+  $('term').addEventListener('input', function(){
+    $('term').value = $('term').value.replace(/[^0-9]/g,'');
+    calc();
+  });
+
+  $('rate').addEventListener('input', function(){
+    $('rate').value = $('rate').value.replace(/[^0-9.]/g,'');
+    syncPreset('preset', parseFloat($('rate').value));
+    calc();
+  });
+
+  $('preset').querySelectorAll('button').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      $('rate').value = btn.getAttribute('data-v');
+      syncPreset('preset', parseFloat($('rate').value));
+      calc();
+    });
+  });
+
+  $('amtPreset').querySelectorAll('button').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var n = num(btn.getAttribute('data-v'));
+      $('amt').value = fmt(n);
+      $('amtHint').textContent = han(n);
+      syncPreset('amtPreset', n);
+      calc();
+    });
+  });
+
+  calc();
+})();
+</script>
+</body>
+</html>
